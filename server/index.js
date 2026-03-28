@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { existsSync } from 'fs';
+import { existsSync, createReadStream } from 'fs';
 import './db.js';
 import dreamsRouter from './routes/dreams.js';
 import analysisRouter from './routes/analysis.js';
@@ -20,6 +20,14 @@ app.use('/api/dreams', dreamsRouter);
 app.use('/api', analysisRouter);
 app.use('/api', videoRouter);
 app.use('/api/settings', settingsRouter);
+
+// Video file serving
+app.get('/api/videos/file/*', (req, res) => {
+  const filepath = req.params[0];
+  if (!filepath) return res.status(400).json({ success: false, error: 'No file path' });
+  res.setHeader('Content-Type', 'video/mp4');
+  createReadStream(filepath).pipe(res);
+});
 
 const clientDist = join(__dirname, '..', 'client', 'dist');
 if (existsSync(clientDist)) {
