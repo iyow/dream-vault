@@ -1,0 +1,15 @@
+{
+  "name": "dream-vault-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "openai": "^4.70.0",
+    "node-fetch": "^3.3.2"
+  }
+}
