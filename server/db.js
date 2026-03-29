@@ -57,6 +57,18 @@ db.exec(`
     key TEXT PRIMARY KEY,
     value TEXT
   );
+
+  CREATE TABLE IF NOT EXISTS reverse_dreams (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL,
+    source_dream_ids TEXT NOT NULL,
+    what_if TEXT,
+    perspective TEXT,
+    generated_content TEXT NOT NULL,
+    editable_content TEXT,
+    metadata TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 export default db;
