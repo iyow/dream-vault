@@ -8,6 +8,7 @@ import Analysis from './pages/Analysis';
 import SettingsPage from './pages/Settings';
 import ReverseGallery from './pages/ReverseGallery';
 import ReverseDetail from './pages/ReverseDetail';
+import OfflineStatus from './components/OfflineStatus';
 
 export default function App() {
   const location = useLocation();
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/reverse/:id" element={<ReverseDetail />} />
         </Routes>
       </main>
+      <OfflineStatus />
     </div>
     </ToastProvider>
   );
