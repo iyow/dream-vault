@@ -5,6 +5,7 @@ import { api } from '../api';
 import EmotionChart from '../components/EmotionChart';
 import StoryboardCard from '../components/StoryboardCard';
 import VideoPlayer from '../components/VideoPlayer';
+import ReversePanel from '../components/ReversePanel';
 
 export default function DreamDetail() {
   const { id } = useParams();
@@ -184,6 +185,8 @@ export default function DreamDetail() {
           )}
         </div>
       )}
+
+      {analysis && <ReversePanel dreamId={id} />}
     </div>
   );
 }
