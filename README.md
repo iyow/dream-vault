@@ -2,6 +2,10 @@
 
 梦境收集 + 管理 + 分析 + 视频生成系统，支持离线使用。
 
+灵感来源于 [dream-to-video-skill](https://github.com/mediastormDev/dream-to-video-skill)，将「梦境文本 → AI 分析 → 视频生成」的能力带到本地 Web 应用中。
+
+**在线体验**: https://iyow.github.io/dream-vault/
+
 ## 功能
 
 - **梦境记录**: 文本录入，支持情绪、睡眠质量、标签
@@ -13,117 +17,33 @@
 
 ## 快速开始
 
-### 本地开发
-
 ```bash
-# 安装依赖
 npm run install:all
-
-# 开发模式（同时启动前端和后端）
 npm run dev
-
 # 访问 http://localhost:5173
 ```
 
-### 生产部署
+生产部署：
 
 ```bash
-# 构建前端
-npm run build
-
-# 启动服务
-npm start
-
+npm run build && npm start
 # 访问 http://localhost:3001
 ```
 
-### GitHub Pages 部署
-
-项目已配置 GitHub Actions 自动部署：
-
-1. Fork 或克隆此仓库
-2. 在 GitHub 仓库设置中启用 GitHub Pages，选择 "GitHub Actions" 作为源
-3. 推送到 main 分支会自动触发部署
-4. 访问 `https://<username>.github.io/dream-vault/`
-
-**注意**: GitHub Pages 版本使用离线模式，数据存储在浏览器 localStorage 中。
-
-## 离线功能
-
-应用支持完全离线使用：
-
-- **自动检测**: API 不可用时自动切换到本地存储
-- **状态提示**: 页面底部显示离线状态横幅
-- **数据持久化**: 使用 localStorage 存储，支持以下功能：
-  - 梦境的增删改查
-  - 基础数据分析
-  - 逆梦功能（简化版）
-  - 应用设置
-
-**限制**: AI 分析和视频生成需要在线服务。
+GitHub Pages 版本使用离线模式，数据存储在浏览器 localStorage 中。
 
 ## 配置
 
-进入设置页面（右上角齿轮图标），配置：
-
-- AI API 地址、Key、模型名称（支持 OpenAI 格式 API）
-- 视频生成 API 地址、Key（可选）
+进入设置页面（右上角齿轮图标），配置 AI API 地址、Key、模型名称（支持 OpenAI 格式 API）以及视频生成 API（可选）。
 
 ## 设计文档
 
-详细的系统设计和技术规范文档位于 `docs/superpowers/specs/` 目录：
+详细设计和技术规范见 `docs/superpowers/specs/`：
 
 | 文档 | 内容 |
 |---|---|
-| [DreamVault 系统设计](docs/superpowers/specs/2026-03-29-dream-vault-design.md) | 完整的技术选型、数据模型（dreams/analyses/videos/settings 表）、API 端点、前端页面设计、核心工作流、LLM prompt 设计 |
-| [逆梦功能设计](docs/superpowers/specs/2026-03-29-reverse-dream-design.md) | 逆梦（Reverse Dream）功能的三种模式（改写/视角切换/串联）、数据模型、API 设计、AI prompt 模板 |
-
-## 技术栈
-
-### 前端
-- React 18 + React Router 6
-- Vite 6（构建工具）
-- Tailwind CSS（样式）
-- Recharts（图表）
-- Lucide React（图标）
-
-### 后端
-- Express.js
-- better-sqlite3（数据库）
-- OpenAI SDK（AI 功能）
-
-## 项目结构
-
-```
-dream-vault/
-├── client/                 # 前端
-│   ├── src/
-│   │   ├── api.js         # API 客户端（含离线 fallback）
-│   │   ├── localStorageService.js  # 本地存储服务
-│   │   ├── components/    # 组件
-│   │   ├── pages/         # 页面
-│   │   └── context/       # React Context
-│   └── vite.config.js
-├── server/                 # 后端
-│   ├── routes/            # API 路由
-│   ├── services/          # 业务逻辑
-│   └── db.js              # 数据库
-├── .github/workflows/     # GitHub Actions
-└── package.json
-```
-
-## 开发指南
-
-### 添加新功能
-
-1. 后端 API: 在 `server/routes/` 添加路由
-2. 前端 API: 在 `client/src/api.js` 添加方法
-3. 离线支持: 在 `client/src/localStorageService.js` 添加对应实现
-4. UI 组件: 在 `client/src/components/` 或 `client/src/pages/` 添加
-
-### 数据库迁移
-
-数据库 schema 定义在 `server/db.js`，启动时自动创建表。
+| [DreamVault 系统设计](docs/superpowers/specs/2026-03-29-dream-vault-design.md) | 技术选型、数据模型、API 端点、核心工作流、LLM prompt 设计 |
+| [逆梦功能设计](docs/superpowers/specs/2026-03-29-reverse-dream-design.md) | 改写/视角切换/串联三种模式、数据模型、AI prompt 模板 |
 
 ## License
 
