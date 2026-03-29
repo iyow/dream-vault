@@ -1,10 +1,12 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Moon, BarChart3, Settings, PlusCircle } from 'lucide-react';
+import { Moon, BarChart3, Settings, PlusCircle, Scroll } from 'lucide-react';
 import Dashboard from './pages/Dashboard';
 import DreamEditor from './pages/DreamEditor';
 import DreamDetail from './pages/DreamDetail';
 import Analysis from './pages/Analysis';
 import SettingsPage from './pages/Settings';
+import ReverseGallery from './pages/ReverseGallery';
+import ReverseDetail from './pages/ReverseDetail';
 
 export default function App() {
   const location = useLocation();
@@ -19,6 +21,9 @@ export default function App() {
           <div className="flex items-center gap-4">
             <Link to="/dream/new" className="flex items-center gap-1 text-sm text-slate-400 hover:text-white">
               <PlusCircle className="w-4 h-4" /> 记录梦境
+            </Link>
+            <Link to="/reverse" className={`flex items-center gap-1 text-sm ${location.pathname.startsWith('/reverse') ? 'text-purple-400' : 'text-slate-400 hover:text-white'}`}>
+              <Scroll className="w-4 h-4" /> 逆梦
             </Link>
             <Link to="/analysis" className={`text-sm ${location.pathname === '/analysis' ? 'text-purple-400' : 'text-slate-400 hover:text-white'}`}>
               <BarChart3 className="w-4 h-4" />
@@ -37,6 +42,8 @@ export default function App() {
           <Route path="/dream/:id/edit" element={<DreamEditor />} />
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/reverse" element={<ReverseGallery />} />
+          <Route path="/reverse/:id" element={<ReverseDetail />} />
         </Routes>
       </main>
     </div>
