@@ -69,6 +69,15 @@ npm start
 - AI API 地址、Key、模型名称（支持 OpenAI 格式 API）
 - 视频生成 API 地址、Key（可选）
 
+## 设计文档
+
+详细的系统设计和技术规范文档位于 `docs/superpowers/specs/` 目录：
+
+| 文档 | 内容 |
+|---|---|
+| [DreamVault 系统设计](docs/superpowers/specs/2026-03-29-dream-vault-design.md) | 完整的技术选型、数据模型（dreams/analyses/videos/settings 表）、API 端点、前端页面设计、核心工作流、LLM prompt 设计 |
+| [逆梦功能设计](docs/superpowers/specs/2026-03-29-reverse-dream-design.md) | 逆梦（Reverse Dream）功能的三种模式（改写/视角切换/串联）、数据模型、API 设计、AI prompt 模板 |
+
 ## 技术栈
 
 ### 前端
