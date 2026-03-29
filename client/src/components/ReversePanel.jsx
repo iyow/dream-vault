@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Wand2, Eye, Link2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { api } from '../api';
+import { useToast } from '../context/ToastContext';
 
 const MODES = [
   { key: 'rewrite', label: '改写梦境', icon: Wand2, color: 'bg-purple-600 hover:bg-purple-500' },
@@ -9,6 +10,7 @@ const MODES = [
 ];
 
 export default function ReversePanel({ dreamId, onSaved }) {
+  const toast = useToast();
   const [mode, setMode] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const [loadingSug, setLoadingSug] = useState(false);
@@ -50,7 +52,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
       setResult(res.data);
       setEditableContent(res.data.content);
     } catch (e) {
-      alert('生成失败: ' + e.message);
+      toast.error('生成失败: ' + e.message);
     } finally {
       setGenerating(false);
     }
@@ -60,10 +62,10 @@ export default function ReversePanel({ dreamId, onSaved }) {
     if (!result) return;
     try {
       await api.reverse.update(result.id, { editable_content: editableContent });
-      alert('保存成功');
+      toast.success('保存成功');
       onSaved?.();
     } catch (e) {
-      alert('保存失败: ' + e.message);
+      toast.error('保存失败: ' + e.message);
     }
   }
 

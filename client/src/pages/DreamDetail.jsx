@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Edit, Trash2, Brain, Video, FileText, Loader2 } from 'lucide-react';
+import { Edit, Trash2, Brain, Video, FileText, Loader2, Copy, ExternalLink, AlertCircle } from 'lucide-react';
 import { api } from '../api';
+import { useToast } from '../context/ToastContext';
 import EmotionChart from '../components/EmotionChart';
 import StoryboardCard from '../components/StoryboardCard';
 import VideoPlayer from '../components/VideoPlayer';
@@ -10,10 +11,12 @@ import ReversePanel from '../components/ReversePanel';
 export default function DreamDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
   const [dream, setDream] = useState(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [videoApiNotConfigured, setVideoApiNotConfigured] = useState(false);
 
   useEffect(() => { loadDream(); }, [id]);
 
@@ -33,7 +36,7 @@ export default function DreamDetail() {
       await api.analysis.trigger(id);
       await loadDream();
     } catch (e) {
-      alert('分析失败: ' + e.message);
+      toast.error('分析失败: ' + e.message);
     } finally {
       setAnalyzing(false);
     }
@@ -41,16 +44,25 @@ export default function DreamDetail() {
 
   async function handleGenerateVideo() {
     setGenerating(true);
+    setVideoApiNotConfigured(false);
     try {
       const res = await api.video.generate(id);
       if (res.data.configured === false) {
-        alert('视频 API 未配置，以下是制作信息:\n\n' + (res.data.video_prompt || '无'));
+        setVideoApiNotConfigured(true);
+      } else {
+        await loadDream();
       }
-      await loadDream();
     } catch (e) {
-      alert('生成失败: ' + e.message);
+      toast.error('生成失败: ' + e.message);
     } finally {
       setGenerating(false);
+    }
+  }
+
+  function handleCopyPrompt() {
+    if (analysis?.video_prompt) {
+      navigator.clipboard.writeText(analysis.video_prompt);
+      toast.success('Prompt 已复制到剪贴板');
     }
   }
 
@@ -162,6 +174,43 @@ export default function DreamDetail() {
 
           {dream.video?.status === 'completed' ? (
             <VideoPlayer src={`/api/videos/file/${dream.video.original_path}`} />
+          ) : videoApiNotConfigured ? (
+            <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg space-y-4">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-amber-200 font-medium">视频 API 未配置</p>
+                  <p className="text-sm text-amber-200/70 mt-1">请在设置中配置视频生成服务，或使用下方提示前往即梦平台生成视频</p>
+                </div>
+              </div>
+
+              {analysis.video_prompt && (
+                <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                  <h4 className="flex items-center gap-1 text-xs text-slate-500 mb-1">
+                    <FileText className="w-3 h-3" /> 视频 Prompt（可复制到其他平台使用）
+                  </h4>
+                  <p className="text-sm text-slate-300 whitespace-pre-wrap">{analysis.video_prompt}</p>
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCopyPrompt}
+                  disabled={!analysis.video_prompt}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium disabled:opacity-50"
+                >
+                  <Copy className="w-4 h-4" /> 复制 Prompt
+                </button>
+                <a
+                  href="https://jimeng.jianying.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-500 rounded-lg text-sm font-medium"
+                >
+                  <ExternalLink className="w-4 h-4" /> 前往即梦
+                </a>
+              </div>
+            </div>
           ) : (
             <div className="space-y-3">
               <button

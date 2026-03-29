@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Save, ArrowLeft, Wand2, Eye, Link2 } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Save, ArrowLeft, Wand2, Eye, Link2, Sparkles } from 'lucide-react';
 import { api } from '../api';
+import { useToast } from '../context/ToastContext';
 
 const TYPE_MAP = {
   rewrite: { label: '改写梦境', icon: Wand2, color: 'text-purple-400' },
@@ -11,9 +12,12 @@ const TYPE_MAP = {
 
 export default function ReverseDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const toast = useToast();
   const [item, setItem] = useState(null);
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
+  const [savingAsDream, setSavingAsDream] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +34,28 @@ export default function ReverseDetail() {
       await api.reverse.update(id, { editable_content: content });
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleSaveAsDream() {
+    if (!confirm('确定要将此逆梦内容保存为新梦境吗？')) return;
+    setSavingAsDream(true);
+    try {
+      const res = await api.dreams.create({
+        title: item.source_dreams?.[0]?.title 
+          ? `${item.source_dreams[0].title} - 逆梦` 
+          : '新梦境',
+        content: content,
+        dream_date: new Date().toISOString().split('T')[0],
+        tags: ['逆梦']
+      });
+      if (res.data?.id) {
+        navigate(`/dream/${res.data.id}`);
+      }
+    } catch (e) {
+      toast.error('保存失败: ' + e.message);
+    } finally {
+      setSavingAsDream(false);
     }
   }
 
@@ -75,13 +101,22 @@ export default function ReverseDetail() {
             rows={16}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm focus:outline-none focus:border-purple-500 resize-y"
           />
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="mt-3 flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
-          >
-            <Save className="w-4 h-4" /> {saving ? '保存中...' : '保存'}
-          </button>
+          <div className="mt-3 flex gap-3">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
+            >
+              <Save className="w-4 h-4" /> {saving ? '保存中...' : '保存'}
+            </button>
+            <button
+              onClick={handleSaveAsDream}
+              disabled={savingAsDream}
+              className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-medium disabled:opacity-50"
+            >
+              <Sparkles className="w-4 h-4" /> {savingAsDream ? '保存中...' : '保存为新的梦境'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

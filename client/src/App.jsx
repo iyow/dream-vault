@@ -1,5 +1,6 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Moon, BarChart3, Settings, PlusCircle, Scroll } from 'lucide-react';
+import { ToastProvider } from './context/ToastContext';
 import Dashboard from './pages/Dashboard';
 import DreamEditor from './pages/DreamEditor';
 import DreamDetail from './pages/DreamDetail';
@@ -12,6 +13,7 @@ export default function App() {
   const location = useLocation();
 
   return (
+    <ToastProvider>
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -47,5 +49,6 @@ export default function App() {
         </Routes>
       </main>
     </div>
+    </ToastProvider>
   );
 }
