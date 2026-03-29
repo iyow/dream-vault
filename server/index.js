@@ -8,6 +8,7 @@ import dreamsRouter from './routes/dreams.js';
 import analysisRouter from './routes/analysis.js';
 import videoRouter from './routes/video.js';
 import settingsRouter from './routes/settings.js';
+import reverseRouter from './routes/reverse.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -20,6 +21,7 @@ app.use('/api/dreams', dreamsRouter);
 app.use('/api', analysisRouter);
 app.use('/api', videoRouter);
 app.use('/api/settings', settingsRouter);
+app.use('/api', reverseRouter);
 
 // Video file serving
 app.get('/api/videos/file/*', (req, res) => {
