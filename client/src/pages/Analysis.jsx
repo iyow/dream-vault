@@ -19,8 +19,8 @@ export default function Analysis() {
     });
   }, []);
 
-  if (loading) return <div className="text-center py-12 text-slate-500">加载中...</div>;
-  if (!overview) return <div className="text-center py-12 text-slate-500">暂无分析数据，请先记录并分析梦境</div>;
+  if (loading) return <div className="text-center py-12 text-slate-500">解读中...</div>;
+  if (!overview) return <div className="text-center py-12 text-slate-500">梦境尚未解读，请先记录并解读一些梦境</div>;
 
   const emotionData = Object.entries(overview.emotionTotals || {})
     .map(([name, value]) => ({ name, value: Math.round(value * 100) / 100 }))
@@ -38,19 +38,19 @@ export default function Analysis() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-semibold">分析面板</h1>
+      <h1 className="text-xl font-semibold">梦境星图</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-lg">
-          <div className="text-sm text-slate-400 mb-1">总梦境</div>
+          <div className="text-sm text-slate-400 mb-1">梦境总数</div>
           <div className="text-2xl font-bold">{overview.totalDreams}</div>
         </div>
         <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-lg">
-          <div className="text-sm text-slate-400 mb-1">已分析</div>
+          <div className="text-sm text-slate-400 mb-1">已解读</div>
           <div className="text-2xl font-bold">{overview.analyzedDreams}</div>
         </div>
         <div className="p-4 bg-slate-900/50 border border-slate-800 rounded-lg">
-          <div className="text-sm text-slate-400 mb-1">分析率</div>
+          <div className="text-sm text-slate-400 mb-1">解读率</div>
           <div className="text-2xl font-bold">
             {overview.totalDreams > 0 ? Math.round(overview.analyzedDreams / overview.totalDreams * 100) : 0}%
           </div>
@@ -59,7 +59,7 @@ export default function Analysis() {
 
       <section>
         <h2 className="flex items-center gap-2 text-lg font-medium mb-4">
-          <TrendingUp className="w-5 h-5 text-purple-400" /> 情绪趋势
+          <TrendingUp className="w-5 h-5 text-purple-400" /> 情绪波动
         </h2>
         {trendData.length > 0 ? (
           <ResponsiveContainer width="100%" height={250}>
@@ -75,13 +75,13 @@ export default function Analysis() {
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-slate-500 text-sm">暂无趋势数据</p>
+          <p className="text-slate-500 text-sm">情绪尚未浮现</p>
         )}
       </section>
 
       <section>
         <h2 className="flex items-center gap-2 text-lg font-medium mb-4">
-          <Tag className="w-5 h-5 text-purple-400" /> 情绪分布
+          <Tag className="w-5 h-5 text-purple-400" /> 情绪光谱
         </h2>
         {emotionData.length > 0 ? (
           <ResponsiveContainer width="100%" height={200}>
@@ -93,12 +93,12 @@ export default function Analysis() {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-slate-500 text-sm">暂无情绪数据</p>
+          <p className="text-slate-500 text-sm">情绪光谱尚在沉睡</p>
         )}
       </section>
 
       <section>
-        <h2 className="text-lg font-medium mb-4">高频主题</h2>
+        <h2 className="text-lg font-medium mb-4">反复主题</h2>
         {themeData.length > 0 ? (
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={themeData} layout="vertical" margin={{ left: 80 }}>
@@ -109,24 +109,24 @@ export default function Analysis() {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <p className="text-slate-500 text-sm">暂无主题数据</p>
+          <p className="text-slate-500 text-sm">主题尚未显现</p>
         )}
       </section>
 
       {recurring && (recurring.recurringThemes?.length > 0 || recurring.recurringSymbols?.length > 0) && (
         <section>
           <h2 className="flex items-center gap-2 text-lg font-medium mb-4">
-            <Repeat className="w-5 h-5 text-purple-400" /> 反复出现的模式
+            <Repeat className="w-5 h-5 text-purple-400" /> 梦中回响
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {recurring.recurringThemes?.length > 0 && (
               <div>
-                <h3 className="text-sm text-slate-400 mb-2">反复主题</h3>
+                <h3 className="text-sm text-slate-400 mb-2">回响主题</h3>
                 <div className="space-y-2">
                   {recurring.recurringThemes.map((t) => (
                     <div key={t.theme} className="flex items-center justify-between p-2 bg-slate-800/50 rounded border border-slate-700">
                       <span className="text-sm">{t.theme}</span>
-                      <span className="text-xs text-purple-400">{t.count} 次</span>
+                      <span className="text-xs text-purple-400">出现 {t.count} 次</span>
                     </div>
                   ))}
                 </div>
@@ -134,13 +134,13 @@ export default function Analysis() {
             )}
             {recurring.recurringSymbols?.length > 0 && (
               <div>
-                <h3 className="text-sm text-slate-400 mb-2">反复象征</h3>
+                <h3 className="text-sm text-slate-400 mb-2">回响意象</h3>
                 <div className="space-y-2">
                   {recurring.recurringSymbols.map((s) => (
                     <div key={s.symbol} className="p-2 bg-slate-800/50 rounded border border-slate-700">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">{s.symbol}</span>
-                        <span className="text-xs text-purple-400">{s.count} 次</span>
+                        <span className="text-xs text-purple-400">出现 {s.count} 次</span>
                       </div>
                       <div className="text-xs text-slate-500 mt-0.5">{s.meaning}</div>
                     </div>

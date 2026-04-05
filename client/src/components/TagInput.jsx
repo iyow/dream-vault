@@ -35,7 +35,7 @@ export default function TagInput({ tags = [], onChange }) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="输入标签后按回车"
+        placeholder="写下关键词，按回车添加"
         className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm focus:outline-none focus:border-purple-500"
       />
     </div>

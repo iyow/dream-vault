@@ -33,9 +33,9 @@ export default function Dashboard() {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <StatCard icon={<Moon className="w-5 h-5" />} label="总梦境数" value={stats?.totalDreams ?? total} />
-        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="已分析" value={stats?.analyzedDreams ?? 0} />
-        <StatCard icon={<Calendar className="w-5 h-5" />} label="本月新增" value={
+        <StatCard icon={<Moon className="w-5 h-5" />} label="梦境总数" value={stats?.totalDreams ?? total} />
+        <StatCard icon={<TrendingUp className="w-5 h-5" />} label="已解读" value={stats?.analyzedDreams ?? 0} />
+        <StatCard icon={<Calendar className="w-5 h-5" />} label="本月收录" value={
           stats?.monthlyTrend?.[0]?.count ?? '-'
         } />
       </div>
@@ -45,7 +45,7 @@ export default function Dashboard() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
           <input
             type="text"
-            placeholder="搜索梦境..."
+            placeholder="在梦的海洋里寻找..."
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm focus:outline-none focus:border-purple-500"
@@ -79,8 +79,8 @@ export default function Dashboard() {
         {dreams.length === 0 && (
           <div className="text-center py-12 text-slate-500">
             <Moon className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            <p>还没有梦境记录</p>
-            <Link to="/dream/new" className="text-purple-400 hover:underline text-sm">开始记录第一个梦</Link>
+            <p>梦境尚未入梦</p>
+            <Link to="/dream/new" className="text-purple-400 hover:underline text-sm">记录你的第一段梦境</Link>
           </div>
         )}
       </div>

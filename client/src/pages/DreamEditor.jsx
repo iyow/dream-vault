@@ -60,7 +60,7 @@ export default function DreamEditor() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-xl font-semibold">{isEdit ? '编辑梦境' : '记录新梦境'}</h1>
+      <h1 className="text-xl font-semibold">{isEdit ? '修订梦境' : '记录新梦'}</h1>
 
       <div>
         <label className="block text-sm text-slate-400 mb-1">标题</label>
@@ -96,7 +96,7 @@ export default function DreamEditor() {
       </div>
 
       <div>
-        <label className="block text-sm text-slate-400 mb-1">入睡前情绪</label>
+        <label className="block text-sm text-slate-400 mb-1">入梦前心情</label>
         <div className="flex flex-wrap gap-2">
           {MOODS.map((m) => (
             <button
@@ -116,7 +116,7 @@ export default function DreamEditor() {
       </div>
 
       <div>
-        <label className="block text-sm text-slate-400 mb-1">睡眠质量</label>
+        <label className="block text-sm text-slate-400 mb-1">安眠程度</label>
         <StarRating value={form.sleep_quality} onChange={(v) => update('sleep_quality', v)} />
       </div>
 
@@ -131,7 +131,7 @@ export default function DreamEditor() {
         className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
       >
         <Save className="w-4 h-4" />
-        {saving ? '保存中...' : '保存'}
+        {saving ? '封存中...' : '封存梦境'}
       </button>
     </form>
   );

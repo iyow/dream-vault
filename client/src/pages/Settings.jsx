@@ -39,14 +39,14 @@ export default function SettingsPage() {
     setSettings((prev) => ({ ...prev, [key]: value }));
   }
 
-  if (loading) return <div className="text-center py-12 text-slate-500">加载中...</div>;
+  if (loading) return <div className="text-center py-12 text-slate-500">开启星门中...</div>;
 
   return (
     <form onSubmit={handleSave} className="max-w-xl mx-auto space-y-8">
-      <h1 className="text-xl font-semibold">设置</h1>
+      <h1 className="text-xl font-semibold">星门设置</h1>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-medium">AI 配置</h2>
+        <h2 className="text-lg font-medium">解读之力</h2>
 
         <div>
           <label className="block text-sm text-slate-400 mb-1">API 地址</label>
@@ -89,13 +89,13 @@ export default function SettingsPage() {
           {testResults.ai?.loading ? <Loader2 className="w-4 h-4 animate-spin" /> :
            testResults.ai?.success ? <CheckCircle className="w-4 h-4 text-green-400" /> :
            testResults.ai?.success === false ? <XCircle className="w-4 h-4 text-red-400" /> : null}
-          测试 AI 连接
+           测试连接
         </button>
         {testResults.ai?.error && <p className="text-xs text-red-400">{testResults.ai.error}</p>}
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-medium">视频 API 配置</h2>
+        <h2 className="text-lg font-medium">影像之力</h2>
 
         <div>
           <label className="block text-sm text-slate-400 mb-1">API 地址</label>
@@ -127,7 +127,7 @@ export default function SettingsPage() {
           {testResults.video?.loading ? <Loader2 className="w-4 h-4 animate-spin" /> :
            testResults.video?.success ? <CheckCircle className="w-4 h-4 text-green-400" /> :
            testResults.video?.success === false ? <XCircle className="w-4 h-4 text-red-400" /> : null}
-          测试视频连接
+           测试连接
         </button>
         {testResults.video?.error && <p className="text-xs text-red-400">{testResults.video.error}</p>}
       </section>
@@ -138,7 +138,7 @@ export default function SettingsPage() {
         className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
       >
         <Save className="w-4 h-4" />
-        {saving ? '保存中...' : '保存设置'}
+        {saving ? '施展中...' : '施展变更'}
       </button>
     </form>
   );

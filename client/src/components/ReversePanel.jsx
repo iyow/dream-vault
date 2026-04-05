@@ -52,7 +52,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
       setResult(res.data);
       setEditableContent(res.data.content);
     } catch (e) {
-      toast.error('生成失败: ' + e.message);
+      toast.error('施展失败: ' + e.message);
     } finally {
       setGenerating(false);
     }
@@ -75,7 +75,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center justify-between p-4 bg-slate-900/30 hover:bg-slate-900/50 transition"
       >
-        <span className="flex items-center gap-2 text-lg font-semibold text-purple-400">
+          <span className="flex items-center gap-2 text-lg font-semibold text-purple-400">
           <Wand2 className="w-5 h-5" /> 逆梦
         </span>
         {expanded ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
@@ -101,14 +101,14 @@ export default function ReversePanel({ dreamId, onSaved }) {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-400">
-                  {mode === 'rewrite' ? '选择或输入"如果…"假设' : '选择或输入视角'}
+                  {mode === 'rewrite' ? '选择或创造你的"如果..."' : '选择或创造新视角'}
                 </span>
-                <button onClick={() => setMode(null)} className="text-xs text-slate-500 hover:text-white">返回</button>
+                  <button onClick={() => setMode(null)} className="text-xs text-slate-500 hover:text-white">重选模式</button>
               </div>
 
               {loadingSug ? (
                 <div className="text-sm text-slate-500 flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" /> 生成建议中...
+                  <Loader2 className="w-4 h-4 animate-spin" /> 召唤可能中...
                 </div>
               ) : (
                 <>
@@ -132,7 +132,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
                       type="text"
                       value={customInput}
                       onChange={(e) => setCustomInput(e.target.value)}
-                      placeholder={mode === 'rewrite' ? '自定义"如果…"假设' : '自定义视角'}
+                      placeholder={mode === 'rewrite' ? '如果...会怎样？' : '以谁的视角重述？'}
                       className="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm focus:outline-none focus:border-purple-500"
                     />
                     <button
@@ -140,7 +140,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
                       disabled={!customInput.trim() || generating}
                       className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
                     >
-                      {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : '生成'}
+                      {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : '施展'}
                     </button>
                   </div>
                 </>
@@ -152,7 +152,7 @@ export default function ReversePanel({ dreamId, onSaved }) {
             <div className="space-y-3">
               {result.diff && (
                 <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg text-sm text-amber-200">
-                  {result.diff}
+                  💫 {result.diff}
                 </div>
               )}
               <textarea
@@ -166,13 +166,13 @@ export default function ReversePanel({ dreamId, onSaved }) {
                   onClick={handleSave}
                   className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium"
                 >
-                  保存逆梦
+                  封存再造
                 </button>
                 <button
                   onClick={() => { setMode(null); setResult(null); }}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm"
                 >
-                  重新开始
+                  重新编织
                 </button>
               </div>
             </div>

@@ -5,9 +5,9 @@ import { api } from '../api';
 import { useToast } from '../context/ToastContext';
 
 const TYPE_MAP = {
-  rewrite: { label: '改写梦境', icon: Wand2, color: 'text-purple-400' },
-  perspective: { label: '视角切换', icon: Eye, color: 'text-indigo-400' },
-  chain: { label: '梦境串联', icon: Link2, color: 'text-cyan-400' }
+  rewrite: { label: '梦境改写', icon: Wand2, color: 'text-purple-400' },
+  perspective: { label: '视角转换', icon: Eye, color: 'text-indigo-400' },
+  chain: { label: '梦境编织', icon: Link2, color: 'text-cyan-400' }
 };
 
 export default function ReverseDetail() {
@@ -38,13 +38,13 @@ export default function ReverseDetail() {
   }
 
   async function handleSaveAsDream() {
-    if (!confirm('确定要将此逆梦内容保存为新梦境吗？')) return;
+    if (!confirm('确定要将此逆梦编织成新梦境吗？')) return;
     setSavingAsDream(true);
     try {
       const res = await api.dreams.create({
         title: item.source_dreams?.[0]?.title 
           ? `${item.source_dreams[0].title} - 逆梦` 
-          : '新梦境',
+          : '新的梦境',
         content: content,
         dream_date: new Date().toISOString().split('T')[0],
         tags: ['逆梦']
@@ -59,8 +59,8 @@ export default function ReverseDetail() {
     }
   }
 
-  if (loading) return <div className="text-center py-12 text-slate-500">加载中...</div>;
-  if (!item) return <div className="text-center py-12 text-slate-500">不存在</div>;
+  if (loading) return <div className="text-center py-12 text-slate-500">召唤中...</div>;
+  if (!item) return <div className="text-center py-12 text-slate-500">逆梦已消散</div>;
 
   const typeInfo = TYPE_MAP[item.type] || {};
   const Icon = typeInfo.icon || Wand2;
@@ -82,7 +82,7 @@ export default function ReverseDetail() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="text-sm font-medium text-slate-400 mb-3">源梦境</h3>
+          <h3 className="text-sm font-medium text-slate-400 mb-3">原梦境</h3>
           <div className="space-y-4">
             {item.source_dreams?.map((d) => (
               <div key={d.id} className="p-4 bg-slate-900/30 border border-slate-800 rounded-lg">
@@ -107,14 +107,14 @@ export default function ReverseDetail() {
               disabled={saving}
               className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium disabled:opacity-50"
             >
-              <Save className="w-4 h-4" /> {saving ? '保存中...' : '保存'}
+              <Save className="w-4 h-4" /> {saving ? '封存中...' : '封存'}
             </button>
             <button
               onClick={handleSaveAsDream}
               disabled={savingAsDream}
               className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-medium disabled:opacity-50"
             >
-              <Sparkles className="w-4 h-4" /> {savingAsDream ? '保存中...' : '保存为新的梦境'}
+              <Sparkles className="w-4 h-4" /> {savingAsDream ? '编织中...' : '编织成新梦境'}
             </button>
           </div>
         </div>

@@ -5,8 +5,8 @@ import { api } from '../api';
 
 const TYPE_MAP = {
   rewrite: { label: '改写', icon: Wand2, color: 'text-purple-400' },
-  perspective: { label: '视角', icon: Eye, color: 'text-indigo-400' },
-  chain: { label: '串联', icon: Link2, color: 'text-cyan-400' }
+  perspective: { label: '换位', icon: Eye, color: 'text-indigo-400' },
+  chain: { label: '编织', icon: Link2, color: 'text-cyan-400' }
 };
 
 export default function ReverseGallery() {
@@ -36,12 +36,12 @@ export default function ReverseGallery() {
       </div>
 
       <div className="flex gap-2 mb-6">
-        {[
-          { key: '', label: '全部' },
-          { key: 'rewrite', label: '改写' },
-          { key: 'perspective', label: '视角' },
-          { key: 'chain', label: '串联' }
-        ].map((t) => (
+          {[
+            { key: '', label: '全部' },
+            { key: 'rewrite', label: '改写' },
+            { key: 'perspective', label: '换位' },
+            { key: 'chain', label: '编织' }
+          ].map((t) => (
           <button
             key={t.key}
             onClick={() => { setTypeFilter(t.key); setPage(1); }}
@@ -87,8 +87,8 @@ export default function ReverseGallery() {
         {items.length === 0 && (
           <div className="text-center py-12 text-slate-500">
             <Scroll className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            <p>还没有逆梦记录</p>
-            <p className="text-sm">在梦境详情页点击"逆梦"开始</p>
+            <p>逆梦尚未开始</p>
+            <p className="text-sm">在梦境详情页点击"逆梦"施展</p>
           </div>
         )}
       </div>

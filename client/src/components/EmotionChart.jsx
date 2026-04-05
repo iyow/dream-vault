@@ -7,7 +7,7 @@ export default function EmotionChart({ emotion = {} }) {
     .map(([name, value]) => ({ name, value: Math.round(value * 100) }))
     .sort((a, b) => b.value - a.value);
 
-  if (data.length === 0) return <p className="text-slate-500 text-sm">无情绪数据</p>;
+  if (data.length === 0) return <p className="text-slate-500 text-sm">情绪尚未浮现</p>;
 
   return (
     <ResponsiveContainer width="100%" height={200}>

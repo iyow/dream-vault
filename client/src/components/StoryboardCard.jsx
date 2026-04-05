@@ -11,10 +11,10 @@ export default function StoryboardCard({ storyboard = [] }) {
             {i + 1}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm text-slate-300 mb-1">{scene.scene}</div>
+            <div className="text-sm text-slate-300 mb-1">{scene.scene || '场景描述'}</div>
             <div className="flex items-center gap-3 text-xs text-slate-500">
-              <span className="flex items-center gap-1"><Film className="w-3 h-3" /> {scene.camera}</span>
-              <span>{scene.duration}s</span>
+              <span className="flex items-center gap-1"><Film className="w-3 h-3" /> 镜头: {scene.camera}</span>
+              <span>时长: {scene.duration}秒</span>
             </div>
           </div>
         </div>
