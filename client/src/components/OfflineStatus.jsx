@@ -50,12 +50,12 @@ export default function OfflineStatus() {
         )}
         <div className="flex-1">
           <div className="font-medium text-sm">
-            {isOffline ? '离线模式' : '已恢复在线'}
+            {isOffline ? '半梦半醒' : '星门已开'}
           </div>
           <div className="text-xs mt-1 opacity-80">
             {isOffline 
-              ? '数据将保存在本地浏览器中，联网后可同步'
-              : '已连接到服务器'}
+              ? '此为幻境投影，完整梦境需自建星门'
+              : '已连接到梦境服务器'}
           </div>
         </div>
         <button
